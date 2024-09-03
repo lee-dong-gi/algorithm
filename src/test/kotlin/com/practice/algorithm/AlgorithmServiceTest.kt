@@ -17,4 +17,10 @@ class AlgorithmServiceTest {
         assertEquals(1, algorithmService.fibonacci(1))
         assertEquals(2, algorithmService.fibonacci(3))
     }
+
+    @Test
+    fun binarySearch() {
+        assertEquals(30, algorithmService.binarySearch(30).order)
+        assertEquals(-1, algorithmService.binarySearch(101).order)
+    }
 }
