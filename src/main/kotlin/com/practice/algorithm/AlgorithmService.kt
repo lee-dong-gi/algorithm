@@ -43,6 +43,7 @@ class AlgorithmService {
         }
     }
 
+    // https://www.youtube.com/watch?v=JfwzA467D04&t=41s
     fun calculateMinimumCostToAllPointsWithDijkstra(graph: Graph, startNode: Int): IntArray {
         // 모든 정점에 대해 초기 거리를 무한대로 설정. 시작 정점의 거리는 0으로 설정
         val distances = IntArray(graph.vertices) { Int.MAX_VALUE } // 배열의 각 요소를 Int 최대값으로 설정
@@ -84,7 +85,7 @@ class AlgorithmService {
         val distances = IntArray(graph.vertices) { Int.MAX_VALUE } // 배열의 각 요소를 Int 최대값으로 설정
         distances[startNode] = 0 // 시작점은 0으로
 
-        // 경로 추적을 위한 배열. 각 정점이 어디서 왔는지를 기록
+        // 경로 추적을 위한 배열. -1인 경우 더이상 정점이 없음을 의미
         val previousNodes = IntArray(graph.vertices) { -1 }
 
         // 우선순위 큐를 사용하여 방문할 정점을 선택. 정점과 그 정점까지의 거리 쌍을 저장
@@ -114,6 +115,7 @@ class AlgorithmService {
         }
 
         // 목적지까지의 경로를 추적
+        // previousNodes 에는 정점에 대한 모든 경로가 저장되어있어서 따로 추적하는 작업이 필요함
         val path = mutableListOf<Int>()
         var currentNode = endNode
         while (currentNode != -1) {
