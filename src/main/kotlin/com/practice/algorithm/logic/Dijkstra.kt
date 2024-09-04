@@ -1,50 +1,30 @@
-package com.practice.algorithm
+package com.practice.algorithm.logic
 
+import com.practice.algorithm.Algorithm
+import com.practice.algorithm.dto.AlgorithmParam
+import com.practice.algorithm.dto.AlgorithmResponse
 import com.practice.algorithm.dto.Graph
-import com.practice.algorithm.dto.VirtualUserInfo
-import org.springframework.stereotype.Service
 import java.util.*
 
-@Service
-class AlgorithmService {
-    fun fibonacci(n: Int): Int {
-        return if (n <= 1) n else fibonacci(n - 1) + fibonacci(n - 2)
-    }
+class Dijkstra : Algorithm {
+    override fun execute(algorithmParam: AlgorithmParam): AlgorithmResponse {
+        val result = AlgorithmResponse()
+        val graph = Graph.createSampleGraph(5)
 
-    // 미리 정렬되어 있는 경우에 가장 적합
-    // 대량의 데이터에는 유용하나 적은 데이터에서는 비효율적
-    // 요약 : 찾고자하는 값이 배열의 중앙값이면 탐색 완료된다. 배열의 중앙값보다 작으면 중앙값 이전, 크면 중앙값 다음 배열에서 또 다시 중앙값을 찾아 탐색함
-    fun binarySearch(targetOrder: Int): VirtualUserInfo {
-        val userArr = VirtualUserInfo.createDummyList(100)
-        return binarySearchRecursive(userArr, targetOrder, 0, userArr.size - 1)
-    }
-
-    fun binarySearchRecursive(userArr: Array<VirtualUserInfo>, target: Int, left: Int, right: Int): VirtualUserInfo {
-        if (left > right) {
-            return VirtualUserInfo(-1, "", -1) // Base case: Target 이 배열에 없는 경우
-        }
-
-        val mid = left + (right - left) / 2  // 배열의 중앙을 찾음
-        val order: Int? = userArr[mid].order
-
-        order?.let {
-            return when {
-                order == target -> userArr[mid]  // 찾고자하는 값이면 반환
-                order < target -> binarySearchRecursive(
-                    userArr,
-                    target,
-                    mid + 1,
-                    right
-                ) // 대상 값이 중앙보다 작으면 현재 중앙 기준 이후 값을 탐색
-                else -> binarySearchRecursive(userArr, target, left, mid - 1) // 대상 값이 중앙보다 크다면 현재 중앙 기준 이전 값을 탐색
+        if (algorithmParam.startNode != null) {
+            algorithmParam.endNode?.let {
+                result.dijkstraPathResult = calculatePath(graph, algorithmParam.startNode!!, it)
+            } ?: run {
+                result.dijkstraMinimumCostToAllPointsResult =
+                    calculateMinimumCostToAllPoints(graph, algorithmParam.startNode!!)
             }
-        } ?: run {
-            throw RuntimeException("order 가 없는 객체 발생")
         }
+
+        return result
     }
 
-    // https://www.youtube.com/watch?v=JfwzA467D04&t=41s
-    fun calculateMinimumCostToAllPointsWithDijkstra(graph: Graph, startNode: Int): IntArray {
+    private    // https://www.youtube.com/watch?v=JfwzA467D04&t=41s
+    fun calculateMinimumCostToAllPoints(graph: Graph, startNode: Int): IntArray {
         // 모든 정점에 대해 초기 거리를 무한대로 설정. 시작 정점의 거리는 0으로 설정
         val distances = IntArray(graph.vertices) { Int.MAX_VALUE } // 배열의 각 요소를 Int 최대값으로 설정
         distances[startNode] = 0 // 시작점은 0으로
@@ -80,7 +60,7 @@ class AlgorithmService {
         return distances
     }
 
-    fun calculatePathWithDijkstra(graph: Graph, startNode: Int, endNode: Int): List<Int> {
+    private fun calculatePath(graph: Graph, startNode: Int, endNode: Int): List<Int> {
         // 모든 정점에 대해 초기 거리를 무한대로 설정. 시작 정점의 거리는 0으로 설정
         val distances = IntArray(graph.vertices) { Int.MAX_VALUE } // 배열의 각 요소를 Int 최대값으로 설정
         distances[startNode] = 0 // 시작점은 0으로
@@ -127,36 +107,4 @@ class AlgorithmService {
         return path.reversed()
     }
 
-    fun quickSort(array: IntArray, low: Int, high: Int) {
-        if (low < high) {
-            // 배열을 파티션하여 피벗 위치를 찾습니다.
-            val pivotIndex = partition(array, low, high)
-            // 피벗을 기준으로 두 부분을 재귀적으로 정렬합니다.
-            quickSort(array, low, pivotIndex - 1)
-            quickSort(array, pivotIndex + 1, high)
-        }
-    }
-
-    fun partition(array: IntArray, low: Int, high: Int): Int {
-        // 피벗을 배열의 마지막 원소로 설정합니다.
-        val pivot = array[high]
-        var i = low - 1
-
-        for (j in low until high) {
-            if (array[j] <= pivot) {
-                i++
-                // 원소를 교환합니다.
-                array.swap(i, j)
-            }
-        }
-        // 피벗을 올바른 위치로 이동시킵니다.
-        array.swap(i + 1, high)
-        return i + 1
-    }
-
-    fun IntArray.swap(i: Int, j: Int) {
-        val temp = this[i]
-        this[i] = this[j]
-        this[j] = temp
-    }
 }
