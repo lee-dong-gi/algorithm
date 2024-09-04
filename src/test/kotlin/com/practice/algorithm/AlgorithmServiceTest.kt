@@ -11,9 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest
 @SpringBootTest
 class AlgorithmServiceTest {
 
-    @Autowired
-    lateinit var algorithmService: AlgorithmService
-
     @Test
     fun fibonacciTest() {
         val fibonacci = AlgorithmFactory.getAlgorithm(AlgorithmType.FIBONACCI)
@@ -56,10 +53,6 @@ class AlgorithmServiceTest {
 
     @Test
     fun calculatePathWithDijkstraTest() {
-        val graph = Graph.createSampleGraph(5) // 노드의 개수(0 ~ 4)
-        val startNode = 0
-        val endNode = 3
-
         val dijkstra = AlgorithmFactory.getAlgorithm(AlgorithmType.DIJKSTRA)
         val param = AlgorithmParam()
         param.apply {
@@ -67,7 +60,7 @@ class AlgorithmServiceTest {
             this.endNode = 3
         }
         val path = dijkstra.execute(param).dijkstraPathResult
-        println("Shortest path from $startNode to $endNode is: $path")
+        println("Shortest path from $param.startNode to $param.endNode is: $path")
     }
 
     @Test
