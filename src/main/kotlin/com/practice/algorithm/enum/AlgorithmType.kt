@@ -4,5 +4,7 @@ enum class AlgorithmType {
     BINARY_SEARCH,
     FIBONACCI,
     DIJKSTRA,
-    QUICK_SORT
+    QUICK_SORT,
+    BREADTH_FIRST_SEARCH,
+    DEPTH_FIRST_SEARCH
 }

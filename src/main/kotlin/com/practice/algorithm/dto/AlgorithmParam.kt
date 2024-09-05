@@ -5,5 +5,6 @@ class AlgorithmParam(
     var endNode: Int? = null,
     var fibonacci: Int? = null,
     var binarySearch: Int? = null,
-    var sortArray: IntArray? = null
+    var sortArray: IntArray? = null,
+    var firstSearchGraph: FirstSearchGraph? = null
 )

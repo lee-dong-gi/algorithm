@@ -1,10 +1,7 @@
 package com.practice.algorithm
 
 import com.practice.algorithm.enum.AlgorithmType
-import com.practice.algorithm.logic.BinarySearch
-import com.practice.algorithm.logic.Dijkstra
-import com.practice.algorithm.logic.Fibonacci
-import com.practice.algorithm.logic.QuickSort
+import com.practice.algorithm.logic.*
 
 class AlgorithmFactory {
     companion object {
@@ -14,6 +11,8 @@ class AlgorithmFactory {
                 AlgorithmType.DIJKSTRA -> Dijkstra()
                 AlgorithmType.FIBONACCI -> Fibonacci()
                 AlgorithmType.QUICK_SORT -> QuickSort()
+                AlgorithmType.BREADTH_FIRST_SEARCH -> BreadthFirstSearch()
+                AlgorithmType.DEPTH_FIRST_SEARCH -> DepthFirstSearch()
             }
         }
     }

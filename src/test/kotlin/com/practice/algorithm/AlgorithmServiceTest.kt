@@ -1,11 +1,11 @@
 package com.practice.algorithm
 
 import com.practice.algorithm.dto.AlgorithmParam
-import com.practice.algorithm.dto.Graph
+import com.practice.algorithm.dto.FirstSearchGraph
 import com.practice.algorithm.enum.AlgorithmType
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
@@ -46,9 +46,12 @@ class AlgorithmServiceTest {
 
         val distances = dijkstra.execute(param).dijkstraMinimumCostToAllPointsResult
         println("Vertex\tDistance from Source")
-        for (i in distances?.indices!!) {
+        for (i in distances?.indices!!) { // 0부터 distances.size - 1까지의 범위를 나타내는 IntRange 객체를 받아 루프
             println("$i\t\t${distances[i]}")
         }
+
+        val expected = intArrayOf(0, 7, 3, 9, 5)
+        assertTrue(expected.contentEquals(distances))
     }
 
     @Test
@@ -60,7 +63,10 @@ class AlgorithmServiceTest {
             this.endNode = 3
         }
         val path = dijkstra.execute(param).dijkstraPathResult
-        println("Shortest path from $param.startNode to $param.endNode is: $path")
+        println("Shortest path from ${param.startNode} to ${param.endNode} is: $path")
+
+        val expected = listOf(0, 2, 1, 3)
+        assertEquals(expected, path)
     }
 
     @Test
@@ -74,5 +80,34 @@ class AlgorithmServiceTest {
         val quickSort = AlgorithmFactory.getAlgorithm(AlgorithmType.QUICK_SORT)
         val result = quickSort.execute(param)
         println("퀵 정렬 후: ${result.sortedArray?.joinToString(", ")}")
+
+        val expected = intArrayOf(1, 1, 2, 3, 6, 8, 10)
+        assertTrue(expected.contentEquals(result.sortedArray))
+    }
+
+    @Test
+    fun breadthFirstSearchTest() {
+        val bfs = AlgorithmFactory.getAlgorithm(AlgorithmType.BREADTH_FIRST_SEARCH)
+        val param = AlgorithmParam()
+        param.firstSearchGraph = FirstSearchGraph.createSampleGraph(start = 1)
+
+        val result = bfs.execute(param) // BFS 실행
+        println(result.firstSearchResult)
+
+        val expected = listOf(1, 2, 3, 4, 5, 6)
+        assertEquals(expected, result.firstSearchResult)
+    }
+
+    @Test
+    fun depthFirstSearchTest() {
+        val dfs = AlgorithmFactory.getAlgorithm(AlgorithmType.DEPTH_FIRST_SEARCH)
+        val param = AlgorithmParam()
+        param.firstSearchGraph = FirstSearchGraph.createSampleGraph(start = 1)
+
+        val result = dfs.execute(param) // DFS 실행
+        println(result.firstSearchResult)
+
+        val expected = listOf(1, 2, 4, 5, 3, 6)
+        assertEquals(expected, result.firstSearchResult)
     }
 }
