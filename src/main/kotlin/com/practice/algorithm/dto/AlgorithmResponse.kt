@@ -7,4 +7,5 @@ class AlgorithmResponse {
     var dijkstraPathResult: List<Int>? = null
     var sortedArray: IntArray? = null
     var firstSearchResult: List<Int>? = null
+    var bTreeNode: BTreeNode? = null
 }

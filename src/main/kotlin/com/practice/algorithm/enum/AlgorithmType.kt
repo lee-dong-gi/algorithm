@@ -6,5 +6,6 @@ enum class AlgorithmType {
     DIJKSTRA,
     QUICK_SORT,
     BREADTH_FIRST_SEARCH,
-    DEPTH_FIRST_SEARCH
+    DEPTH_FIRST_SEARCH,
+    B_TREE_SEARCH
 }

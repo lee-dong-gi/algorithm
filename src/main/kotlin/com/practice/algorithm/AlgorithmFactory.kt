@@ -13,6 +13,7 @@ class AlgorithmFactory {
                 AlgorithmType.QUICK_SORT -> QuickSort()
                 AlgorithmType.BREADTH_FIRST_SEARCH -> BreadthFirstSearch()
                 AlgorithmType.DEPTH_FIRST_SEARCH -> DepthFirstSearch()
+                AlgorithmType.B_TREE_SEARCH -> BtreeSearch()
             }
         }
     }
